@@ -1,0 +1,34 @@
+name: Deploy to GitHub Pages
+
+# 触发方式：每天定时执行一次（UTC 02:00 = 北京时间 10:00）
+# 同时支持在 Actions 页面手动点击 Run workflow 立即执行
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build site
+        run: |
+          mkdir -p dist
+          cp index.html dist/
+          cp images.png dist/
+
+      - name: Deploy to gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
+          clean: true
+          commit-message: 'chore: 定时部署更新站点 [skip ci]'
