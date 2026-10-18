@@ -1,93 +1,99 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人网页</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>彭昇 — Developer for the Web</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,900;1,9..144,600&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#EFEBE3; --ink:#1b1b1b; --accent:#B3541E; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:var(--paper); color:var(--ink);
+    font-family:'Fraunces',Georgia,serif;
+    min-height:100vh; display:flex; flex-direction:column; align-items:center;
+    /* 极轻的纸张颗粒 */
+    background-image:radial-gradient(rgba(27,27,27,.035) 1px, transparent 1px);
+    background-size:5px 5px;
+  }
+  .page { width:min(680px, 92vw); flex:1; display:flex; flex-direction:column; padding:38px 0 34px; position:relative; }
 
-        body {
-            font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-        }
+  .folio { display:flex; justify-content:space-between; font:600 12px 'Fraunces',serif; letter-spacing:2px; color:#5f5b52; }
+  .folio .no { color:var(--accent); }
 
-        .card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            padding: 48px 40px;
-            text-align: center;
-            max-width: 420px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
+  h1 {
+    margin-top:26px; text-align:center;
+    font:900 clamp(70px, 9.4vw, 124px)/1.08 'Noto Serif SC','Fraunces',Georgia,serif;
+    letter-spacing:.1em; text-indent:.1em;
+  }
+  h1 .latin {
+    display:block; margin-bottom:16px;
+    font:600 13px 'Fraunces',serif; letter-spacing:9px; text-indent:9px;
+    color:var(--accent); text-transform:uppercase;
+  }
+  .rule { width:64px; height:1px; background:var(--ink); margin:22px auto 0; }
+  .sub { margin-top:16px; text-align:center; font:600 italic clamp(16px,1.9vw,20px) 'Fraunces',serif; }
 
-        .avatar {
-            width: 260px;
-            height: auto;
-            border-radius: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease;
-        }
+  /* 插图：书页里的一帧人像 */
+  .figure { display:flex; justify-content:center; margin-top:20px; position:relative; }
+  .figure .frame {
+    border:1px solid var(--ink); padding:8px; background:var(--paper);
+    box-shadow:4px 4px 0 rgba(27,27,27,.12);
+    transform:rotate(-1.2deg); transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .figure .frame:hover { transform:rotate(0deg); }
+  .figure img { width:clamp(108px, 11.5vw, 128px); display:block; }
+  .figure figcaption { position:absolute; right:calc(50% - 235px); bottom:2px; font:italic 600 13px 'Fraunces',serif; color:#5f5b52; }
 
-        .avatar:hover {
-            transform: scale(1.03) rotate(1deg);
-        }
+  /* 目录 */
+  .toc { margin-top:30px; width:min(420px, 100%); margin-left:auto; margin-right:auto; font:600 16px 'Fraunces',serif; }
+  .toc a {
+    display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--ink);
+    padding:12px 4px; font-size:17px; transition:color .2s;
+  }
+  .toc a:hover { color:var(--accent); }
+  .toc a:hover .num { color:var(--accent); }
+  .toc .dots { flex:1; border-bottom:2px dotted var(--ink); transform:translateY(-4px); }
+  .toc .num { font-variant-numeric:oldstyle-nums; }
+  .toc .cn { font:500 13px 'Noto Sans SC',sans-serif; color:#5f5b52; margin-left:2px; }
 
-        h1 {
-            margin-top: 24px;
-            font-size: 28px;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
+  .colophon { margin-top:auto; padding-top:34px; text-align:center; font:600 14px 'Fraunces',serif; color:#5f5b52; letter-spacing:1px; }
+  .colophon .mark { display:inline-block; margin-top:10px; font-size:14px; color:var(--accent); }
 
-        p {
-            margin-top: 12px;
-            font-size: 15px;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.75);
-        }
-
-        .tags {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 999px;
-            padding: 6px 16px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.85);
-        }
-    </style>
+  @media (max-width:760px) {
+    h1 { margin-top:44px; }
+    .figure figcaption { right:12%; }
+    .toc .cn { display:none; }
+  }
+</style>
 </head>
 <body>
-    <div class="card">
-        <!-- 图片：与 index.html 同目录下的 images.png -->
-        <img src="images.png" alt="个人照片" class="avatar">
-        <h1>你好，我是彭昇 👋</h1>
-        <p></p>
-        <!-- <div class="tags">
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-            <span class="tag">GitHub</span>
-        </div> -->
-    </div>
+<div class="page">
+  <div class="folio">
+    <span class="no">个人主页 · 第 1 版</span>
+    <span>ANNO 2026</span>
+  </div>
+
+  <h1><span class="latin">Peng Sheng</span>彭昇</h1>
+  <div class="rule"></div>
+  <p class="sub">Developer for the Web · 开发者</p>
+
+  <figure class="figure">
+    <div class="frame"><img src="images.png" alt="彭昇的照片"></div>
+    <figcaption>fig. 1 — the author 作者小像</figcaption>
+  </figure>
+
+  <nav class="toc">
+    <a href="#" onclick="return false"><span>ABOUT</span><span class="cn">关于</span><span class="dots"></span><span class="num">I</span></a>
+    <a href="#" onclick="return false"><span>WORK</span><span class="cn">作品</span><span class="dots"></span><span class="num">II</span></a>
+    <a href="https://github.com/wenguoxiao/test0" target="_blank" rel="noopener"><span>GITHUB</span><span class="cn">仓库</span><span class="dots"></span><span class="num">III</span></a>
+  </nav>
+
+  <div class="colophon">
+    v. test0 — 一个由 Git 管理的静态页面项目<br>
+    <span class="mark">✳</span>
+  </div>
+</div>
 </body>
 </html>
